@@ -7,9 +7,22 @@ use acf_field;
 class ACF_Field_Unique_ID extends acf_field {
 
 	/**
+	 * Whether the class has been initialized.
+	 *
+	 * @var bool
+	 */
+	protected static $initialized = false;
+
+	/**
 	 * Initialize the class.
 	 */
 	public static function init() {
+		if ( self::$initialized || ! function_exists( 'add_action' ) ) {
+			return;
+		}
+
+		self::$initialized = true;
+
 		add_action(
 			'acf/include_field_types',
 			function() {
@@ -61,6 +74,16 @@ class ACF_Field_Unique_ID extends acf_field {
 			return $value;
 		}
 
+		if ( function_exists( 'wp_generate_uuid4' ) ) {
+			$uuid = wp_generate_uuid4();
+
+			if ( ! empty( $uuid ) ) {
+				return $uuid;
+			}
+		}
+
 		return uniqid();
 	}
 }
+
+ACF_Field_Unique_ID::init();
