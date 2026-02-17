@@ -57,10 +57,11 @@ add_action(
 			$meta_ids = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT meta_id FROM {$wpdb->postmeta}
-					WHERE (meta_key = %s OR meta_key LIKE %s)
+					WHERE (meta_key = %s OR meta_key LIKE %s OR meta_key LIKE %s)
 					AND (meta_value = '' OR meta_value IS NULL)",
 					$field_name,
-					'%' . $wpdb->esc_like( '_' . $field_name )
+					'%' . $wpdb->esc_like( '_' . $field_name ),
+					$wpdb->esc_like( $field_name . '_' ) . '%'
 				)
 			);
 

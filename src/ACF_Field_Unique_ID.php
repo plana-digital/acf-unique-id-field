@@ -54,6 +54,7 @@ class ACF_Field_Unique_ID extends acf_field {
 	public function render_field( $field ) {
 		$value = $field['value'];
 
+		// ACF uses "acfcloneindex" for client-side row templates; generating IDs there would duplicate values.
 		if ( empty( $value ) && false === strpos( $field['name'], 'acfcloneindex' ) ) {
 			$value = self::generate_unique_id();
 		}
