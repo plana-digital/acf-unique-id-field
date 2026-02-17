@@ -6,17 +6,23 @@ While this library was originally developer for use in repeaters where each fiel
 
 ## Installation
 
+### WordPress plugin (recommended)
+
+Copy this project folder into `wp-content/plugins/acf-unique-id-field` and activate **ACF Unique ID Field** in wp-admin.
+
+### Composer
+
 ```
 composer require philipnewcomer/acf-unique-id-field
 ```
 
 ## Usage
 
-The field type initializes automatically when this package is loaded.
+The field type initializes automatically when the plugin is active.
 
 Select the "Unique ID" field type when using the ACF GUI.
 
-When editing a post, unique IDs will be generated on the initial save.
+On plugin activation, existing empty values for Unique ID fields are backfilled automatically. New empty values are generated automatically when saving.
 
 ## Notes
 

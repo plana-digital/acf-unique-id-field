@@ -52,10 +52,16 @@ class ACF_Field_Unique_ID extends acf_field {
 	 * @param array $field The field data.
 	 */
 	public function render_field( $field ) {
+		$value = $field['value'];
+
+		if ( empty( $value ) && false === strpos( $field['name'], 'acfcloneindex' ) ) {
+			$value = self::generate_unique_id();
+		}
+
 		printf(
 			'<input type="text" name="%s" value="%s" readonly>',
 			esc_attr( $field['name'] ),
-			esc_attr( $field['value'] )
+			esc_attr( $value )
 		);
 	}
 
@@ -74,12 +80,17 @@ class ACF_Field_Unique_ID extends acf_field {
 			return $value;
 		}
 
-		if ( function_exists( 'wp_generate_uuid4' ) ) {
-			$uuid = wp_generate_uuid4();
+		return self::generate_unique_id();
+	}
 
-			if ( ! empty( $uuid ) ) {
-				return $uuid;
-			}
+	/**
+	 * Generate a unique ID.
+	 *
+	 * @return string
+	 */
+	public static function generate_unique_id() {
+		if ( function_exists( 'wp_generate_uuid4' ) ) {
+			return wp_generate_uuid4();
 		}
 
 		return uniqid();
